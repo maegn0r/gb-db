@@ -1,26 +1,35 @@
 package ru.gb;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import ru.gb.config.HibernateConfig;
-import ru.gb.dao.ManufacturerDao;
-import ru.gb.dao.OldJdbcManufacturerDao;
-import ru.gb.entity.Manufacturer;
+import ru.gb.config.DbConfig;
+import ru.gb.dao.OldJdbcProductDao;
+import ru.gb.dao.ProductDao;
+import ru.gb.entity.Product;
 
 public class ShopApp {
 
-
-
     public static void main(String[] args) {
 
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(HibernateConfig.class);
-        ManufacturerDao manufacturerDao = context.getBean(ManufacturerDao.class);
-        System.out.println(manufacturerDao.findNameById(3L));
-        System.out.println("-----------------------");
-        System.out.println(manufacturerDao.findById(3L));
-        System.out.println("-----------------------");
-        for (Manufacturer manufacturer : manufacturerDao.findAll()) {
-            System.out.println(manufacturer);
+        OldJdbcProductDao oldJdbcProductDao = new OldJdbcProductDao();
+        for (Product product : oldJdbcProductDao.findAll()) {
+            System.out.println(product);
         }
+        System.out.println("-----------------------");
+        System.out.println(oldJdbcProductDao.findById(5L));
+        System.out.println("-----------------------");
+        System.out.println(oldJdbcProductDao.findTitleById(5L));
+
+        //для остальных реализаций: (для hibernate надо еще поменять AnnotationConfigApplicationContext)
+
+//        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DbConfig.class);
+//        ProductDao productDao = context.getBean(ProductDao.class);
+//        System.out.println(productDao.findTitleById(5L));
+//        System.out.println("-----------------------");
+//        System.out.println(productDao.findById(5L));
+//        System.out.println("-----------------------");
+//        for (Product product : productDao.findAll()) {
+//            System.out.println(product);
+//        }
 
     }
 }
